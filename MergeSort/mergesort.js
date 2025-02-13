@@ -39,7 +39,6 @@ const mergeSort = (nums) => {
     console.log(JSON.stringify(ans)==JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));  
 
 
-// what i should write in the commit msg about my changes that i made ? 
 // 
 
 
