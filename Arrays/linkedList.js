@@ -56,6 +56,15 @@ class LinkedList {
         this.length--;
         return itemdel;
     }
+    _find(index){
+        if (index >= this.length) return null;
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+          current = current.next;
+        }
+    
+        return current;
+    }
 }
 
 class Node {
