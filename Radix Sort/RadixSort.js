@@ -10,34 +10,12 @@ it ends up being a lot more simple to implement.
 */
 
 
-function getLongestnumber(num){
-    let count = 0;
-    while(num!=0){
-        num = Math.floor(num/10);
-        count ++;
-    }
-    return count;
+function getLongestnumberdigit(array) {
 }
 function getDigit(number, place) {
-    return Math.floor(Math.abs(number) / Math.pow(10, place)) % 10;
+    
 }
-function getLongestnumbers(nums) {
-    if (nums.length === 0) return 0; // Handle empty array case
-
-    let maxNum = Math.max(...nums); // Find the largest number
-    return getLongestnumber(maxNum); // Get the number of digits in it
-}
-
 function radixSort(array) {
-    let maxDigitCount = getLongestnumbers(array);
-    for(let i = 0 ; i<maxDigitCount;i++){
-        let bucket = Array.from({length:10},()=>[]) 
-        for(let j = 0 ; j<array.length;j++){
-                bucket[getDigit(array[j],i)].push(array[j]);
-        }
-        array = bucket.flat();
-    }
-    return array;
 }
 
 // Test case
@@ -74,4 +52,3 @@ const nums = [
 
 
 
-    
