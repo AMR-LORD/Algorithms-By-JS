@@ -72,16 +72,35 @@ class Tree {
     
         this.balance(); // هنضيف التوازن لاحقًا
     }
-        balance(){
-        //ask if this node out of balance
-
-        //if not out of balance, do nothing
-
-        //if out of balance
-        //if single just call rotate on itself
-        //if double call rotate on child then on itself
+    balance() {
+        let balanceFactor = this.getHeight(this.left) - this.getHeight(this.right);
+    
+        // حالة الدوران لليسار (LL أو LR)
+        if (balanceFactor > 1) {
+            if (this.getHeight(this.left.left) >= this.getHeight(this.left.right)) {
+                this.rotateLL(); // LL Case
+            } else {
+                this.left.rotateRR(); // تحويل LR إلى LL
+                this.rotateLL();
+            }
+        }
+    
+        // حالة الدوران لليمين (RR أو RL)
+        if (balanceFactor < -1) {
+            if (this.getHeight(this.right.right) >= this.getHeight(this.right.left)) {
+                this.rotateRR(); // RR Case
+            } else {
+                this.right.rotateLL(); // تحويل RL إلى RR
+                this.rotateRR();
+            }
+        }
     }
-    rotateRR(){
+    
+    // دالة لحساب الارتفاع لأي عقدة
+    getHeight(node) {
+        return node ? node.height : 0;
+    }
+        rotateRR(){
         //rotate right
         this.right.updateInNewLocation();
         this.updateInNewLocation();
