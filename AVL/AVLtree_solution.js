@@ -46,16 +46,33 @@ class Tree {
       this.right = null;
       this.hieght = 1;
     }
-    add(value){
-        //decide to go left or right 
 
-        //find the correct place to add
+    add(value) {
+        if (value === this.value) return; // منع التكرار
+        
+        if (value < this.value) {
+            if (this.left == null) {
+                this.left = new Node(value);
+            } else {
+                this.left.add(value);
+            }
+        } else {
+            if (this.right == null) {
+                this.right = new Node(value);
+            } else {
+                this.right.add(value);
+            }
+        }
     
-        //make sure that you updating height 
-
-        this.balance();
+        // تحديث الارتفاع بناءً على الأطوال الفعلية
+        this.height = 1 + Math.max(
+            this.left ? this.left.height : 0,
+            this.right ? this.right.height : 0
+        );
+    
+        this.balance(); // هنضيف التوازن لاحقًا
     }
-    balance(){
+        balance(){
         //ask if this node out of balance
 
         //if not out of balance, do nothing
