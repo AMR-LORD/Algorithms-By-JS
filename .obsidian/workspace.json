@@ -164,16 +164,16 @@
   },
   "active": "659c4e5f1b864f95",
   "lastOpenFiles": [
+    "AVL/AVLtree_solution.js",
+    "AVL/AVLtree_tst.js",
+    "AVL/AVLtree.js",
+    "AVL",
     "Tree/BST.js",
     "Tree",
     "Arrays/linkedList.js",
     "Arrays/arrayList.js",
     "Arrays",
     "Array/arrayList.js",
-    "Array",
-    "ArrayList",
-    "Search/Binarysearch.js",
-    "Search",
-    "Radix Sort/RadixSortanswer.js"
+    "Array"
   ]
 }
