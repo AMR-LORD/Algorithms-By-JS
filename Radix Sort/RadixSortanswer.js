@@ -40,6 +40,8 @@ function radixSort(array) {
     return array;
 }
 
+
+
 // Test case
 let arr = [170, 45, 75, 90, 802, 24, 2, 66];
 console.log(radixSort(arr)); // [2, 24, 45, 66, 75, 90, 170, 802]
@@ -73,5 +75,50 @@ const nums = [
     
 
 
+    // another solution 
 
-    
+/*
+function radixSort(array) {
+    let maxDigitCount = getLongestnumbers(array);
+
+    for (let k = 0; k < maxDigitCount; k++) {
+        let buckets = Array.from({ length: 10 }, () => []);
+
+        for (let num of array) {
+            let digit = getDigit(num, k);
+            buckets[digit].push(num);
+        }
+
+        array = [].concat(...buckets); // Flatten the buckets into the array
+    }
+
+    return array;
+}
+
+*/
+
+    /*
+
+function radixSort(array) {
+  const longestNumber = findLongestNumber(array);
+
+  const buckets = new Array(10).fill().map(() => []); // make an array of 10 arrays
+
+  for (let i = longestNumber - 1; i >= 0; i--) {
+    while (array.length) {
+      const current = array.shift();
+      buckets[getDigit(current, i, longestNumber)].push(current);
+    }
+
+    for (let j = 0; j < 10; j++) {
+      while (buckets[j].length) {
+        array.push(buckets[j].shift());
+      }
+    }
+  }
+
+  return array;
+}
+
+*/
+
