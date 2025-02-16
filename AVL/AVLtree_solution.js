@@ -23,96 +23,144 @@
 
 class Tree {
     constructor() {
-      this.Root = null;
+      this.root = null;
     }
-    add(value){
-        //add a new node to the tree
-        let node = new Node(value);
-        if(this.Root == null){
-            this.Root = node;
-        } else {
-            this.Root.add(value);
-        }
+    add(value) {
+      if (!this.root) {
+        this.root = new Node(value);
+      } else {
+        this.root.add(value);
+      }
     }
-    toObject(){
-        return this.Root;
+    toJSON() {
+      return JSON.stringify(this.root.serialize(), null, 4);
+    }
+    toObject() {
+      return this.root.serialize();
     }
   }
   
   class Node {
-    constructor(value) {
+    constructor(value = null, left = null, right = null) {
+      this.left = left;
+      this.right = right;
       this.value = value;
-      this.left = null;
-      this.right = null;
-      this.hieght = 1;
+      this.height = 1;
     }
-
     add(value) {
-        if (value === this.value) return; // منع التكرار
-        
-        if (value < this.value) {
-            if (this.left == null) {
-                this.left = new Node(value);
-            } else {
-                this.left.add(value);
-            }
+      if (value < this.value) {
+        // go left
+  
+        if (this.left) {
+          this.left.add(value);
         } else {
-            if (this.right == null) {
-                this.right = new Node(value);
-            } else {
-                this.right.add(value);
-            }
+          this.left = new Node(value);
         }
-    
-        // تحديث الارتفاع بناءً على الأطوال الفعلية
-        this.height = 1 + Math.max(
-            this.left ? this.left.height : 0,
-            this.right ? this.right.height : 0
-        );
-    
-        this.balance(); // هنضيف التوازن لاحقًا
+        if (!this.right || this.right.height < this.left.height) {
+          this.height = this.left.height + 1;
+        }
+      } else {
+        // go right
+  
+        if (this.right) {
+          this.right.add(value);
+        } else {
+          this.right = new Node(value);
+        }
+        if (!this.left || this.right.height > this.left.height) {
+          this.height = this.right.height + 1;
+        }
+      }
+      this.balance();
     }
     balance() {
-        let balanceFactor = this.getHeight(this.left) - this.getHeight(this.right);
-    
-        // حالة الدوران لليسار (LL أو LR)
-        if (balanceFactor > 1) {
-            if (this.getHeight(this.left.left) >= this.getHeight(this.left.right)) {
-                this.rotateLL(); // LL Case
-            } else {
-                this.left.rotateRR(); // تحويل LR إلى LL
-                this.rotateLL();
-            }
+      const rightHeight = this.right ? this.right.height : 0;
+      const leftHeight = this.left ? this.left.height : 0;
+  
+      if (leftHeight > rightHeight + 1) {
+        const leftRightHeight = this.left.right ? this.left.right.height : 0;
+        const leftLeftHeight = this.left.left ? this.left.left.height : 0;
+  
+        if (leftRightHeight > leftLeftHeight) {
+          this.left.rotateRR();
         }
-    
-        // حالة الدوران لليمين (RR أو RL)
-        if (balanceFactor < -1) {
-            if (this.getHeight(this.right.right) >= this.getHeight(this.right.left)) {
-                this.rotateRR(); // RR Case
-            } else {
-                this.right.rotateLL(); // تحويل RL إلى RR
-                this.rotateRR();
-            }
+  
+        this.rotateLL();
+      } else if (rightHeight > leftHeight + 1) {
+        const rightRightHeight = this.right.right ? this.right.right.height : 0;
+        const rightLeftHeight = this.right.left ? this.right.left.height : 0;
+  
+        if (rightLeftHeight > rightRightHeight) {
+          this.right.rotateLL();
         }
+  
+        this.rotateRR();
+      }
     }
-    
-    // دالة لحساب الارتفاع لأي عقدة
-    getHeight(node) {
-        return node ? node.height : 0;
-    }
-        rotateRR(){
-        //rotate right
-        this.right.updateInNewLocation();
-        this.updateInNewLocation();
-    }
-    rotateLL(){
-        //rotate left
+    // rotateRR work on the left side of the tree
+    // how thr rotation works ? --> https://www.youtube.com/watch?v=rbg7Qf8GkQ4
+    // rotateLL work on the right side of the tree
+    rotateRR() {
+        const valueBefore = this.value;
+        const leftBefore = this.left;
+        this.value = this.right.value;
+        this.left = this.right;
+        this.right = this.right.right;
+        this.left.right = this.left.left;
+        this.left.left = leftBefore;
+        this.left.value = valueBefore;
         this.left.updateInNewLocation();
         this.updateInNewLocation();
     }
-    updateInNewLocation(){
-        //update height 
+    rotateLL() {
+        const valueBefore = this.value;
+        const rightBefore = this.right;
+        this.value = this.left.value;
+        this.right = this.left;
+        this.left = this.left.left;
+        this.right.left = this.right.right;
+        this.right.right = rightBefore; //??
+        this.right.value = valueBefore;
+        this.right.updateInNewLocation();
+        this.updateInNewLocation();
     }
-}
-
   
+    updateInNewLocation() {
+      if (!this.right && !this.left) {
+        this.height = 1;
+      } else if (
+        !this.right ||
+        (this.left && this.right.height < this.left.height)
+      ) {
+        this.height = this.left.height + 1;
+      } else {
+        //if (!this.left || this.right.height > this.left.height)
+        this.height = this.right.height + 1;
+      }
+    }
+    serialize() {
+      const ans = { value: this.value };
+      ans.left = this.left === null ? null : this.left.serialize();
+      ans.right = this.right === null ? null : this.right.serialize();
+      ans.height = this.height;
+      return ans;
+    }
+  }
+  
+///////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+const tree = new Tree();
+tree.add(10);
+tree.add(20);
+tree.add(30);
+tree.add(5);
+tree.add(15);
+
+console.log(JSON.stringify(tree.toObject(), null, 2));
