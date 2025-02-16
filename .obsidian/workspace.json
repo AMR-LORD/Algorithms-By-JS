@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "Topic Discussion/Sorting Algorithms.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Sorting Algorithms"
             }
           }
         ]
@@ -165,10 +165,12 @@
   },
   "active": "659c4e5f1b864f95",
   "lastOpenFiles": [
-    "Topic Discussion/Sorting Algorithms.md",
+    "Topic Discussion/Sorting Algorithms/Quick Sort.md",
     "Topic Discussion/Sorting Algorithms/Insertion Sort.md",
-    "here.md",
+    "Topic Discussion/Sorting Algorithms/Radix Sort.md",
+    "Topic Discussion/Sorting Algorithms.md",
     "README.md",
+    "here.md",
     "Topic Discussion/Big O/Big O Questions.md",
     "Topic Discussion/Sorting Algorithms/Bubble Sort.md",
     "Topic Discussion/Sorting Algorithms",
