@@ -165,6 +165,8 @@
   },
   "active": "659c4e5f1b864f95",
   "lastOpenFiles": [
+    "TraversalsJS/BreadthFirstTreeSolution.js",
+    "TraversalsJS/BreadthFirstTreeTest.js",
     "TraversalsJS/DeothFirstTreeSolution.js",
     "TraversalsJS/DepthFirstTreeTest.js",
     "test.c#",
@@ -181,8 +183,6 @@
     "Topic Discussion/Linked List/Linked list discussion.md",
     "Sorting Algorithm/BubbleSort/BubbleSortTest.js",
     "Sorting Algorithm/BubbleSort",
-    "Sorting Algorithm/InsertionSort/insertionsort.js",
-    "Sorting Algorithm/InsertionSort",
     "Topic Discussion/Arrays/ArrayList discussion.md",
     "Topic Discussion/Sorting Algorithms/Merge Sort.md",
     "Topic Discussion/Sorting Algorithms/Sorting Algorithms.md",
