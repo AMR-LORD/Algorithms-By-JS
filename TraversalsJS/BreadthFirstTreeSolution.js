@@ -1,3 +1,14 @@
+
+const breadthFirstTraverse2 = (queue, array) => {
+    if (!queue.length) return array;
+    const node = queue.shift();
+    array.push(node.value);
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+    return breadthFirstTraverse(queue, array);
+  };
+  
+
 const breadthFirstTraverse = (queue, array) => {
     while (queue.length > 0) {
         let node = queue.shift();  // استخراج أول عقدة من الطابور
@@ -62,3 +73,8 @@ const tree = {
 // اختبار الكود
 const Test = JSON.stringify(breadthFirstTraverse([tree], [])) == JSON.stringify(answer);
 console.log(Test ? "all tests pass" : "test failed");
+
+
+// اختبار الكود
+const Test2 = JSON.stringify(breadthFirstTraverse2([tree], [])) == JSON.stringify(answer);
+console.log(Test2 ? "all test 2 pass" : "test failed");
