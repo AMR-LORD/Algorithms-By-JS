@@ -1,3 +1,5 @@
+//Bidirectional BFS
+
 const logMaze = require("./logger");
 const NO_ONE = 0;
 const BY_A = 1;
@@ -104,8 +106,8 @@ This step-by-step breakdown explains the logic and flow of the algorithm without
 //#endregion
 
 const findShortestPathLength = (maze, [xA, yA], [xB, yB]) => {
-  const visited = maze.map((row, y) =>
-    row.map((origin, x) => ({
+  const visited = maze.map((row, y) => 
+    row.map((origin, x) => ({ 
       closed: origin === 1,
       length: 0,
       openedBy: NO_ONE,
@@ -115,10 +117,151 @@ const findShortestPathLength = (maze, [xA, yA], [xB, yB]) => {
   );
   visited[yA][xA].openedBy = BY_A;
   visited[yB][xB].openedBy = BY_B;
-  logMaze(visited);
+  //logMaze(visited);
+  
+  let aQueue = [visited[yA][xA]]; 
+  let bQueue = [visited[yB][xB]]; 
+  //#region example
+  //if visited[yA][xA] = { closed: false, length: 0, openedBy: BY_A, x: 0, y: 0 }
+  //if visited[yB][xB] = { closed: false, length: 0, openedBy: BY_B, x: 2, y: 2 }
+  /*
+  Absolutely! I'll explain the same example in English for better clarity.
 
-  let aQueue = [visited[yA][xA]];
-  let bQueue = [visited[yB][xB]];
+---
+
+### **Practical Example:**
+
+#### **1. The Maze (`maze`):**
+Let's assume the maze looks like this:
+
+```plaintext
+[
+  [0, 1, 0],  // First row
+  [0, 0, 0],  // Second row
+  [1, 0, 0]   // Third row
+]
+```
+
+- First row `[0, 1, 0]` means:
+  - Cell `(0, 0)` is open (`0`).
+  - Cell `(0, 1)` is blocked (`1`).
+  - Cell `(0, 2)` is open (`0`).
+
+- Second row `[0, 0, 0]`: All cells are open.
+- Third row `[1, 0, 0]`: Cell `(2, 0)` is blocked, and the rest are open.
+
+---
+
+#### **2. The `visited` Matrix:**
+After executing the following code:
+
+```javascript
+const visited = maze.map((row, y) =>
+  row.map((origin, x) => ({
+    closed: origin === 1,
+    length: 0,
+    openedBy: NO_ONE,
+    x,
+    y
+  }))
+);
+```
+
+**Result:**  
+The `visited` matrix will look like this:
+
+```plaintext
+[
+  [
+    { closed: false, length: 0, openedBy: NO_ONE, x: 0, y: 0 },  // Cell (0, 0)
+    { closed: true,  length: 0, openedBy: NO_ONE, x: 1, y: 0 },  // Cell (0, 1)
+    { closed: false, length: 0, openedBy: NO_ONE, x: 2, y: 0 }   // Cell (0, 2)
+  ],
+  [
+    { closed: false, length: 0, openedBy: NO_ONE, x: 0, y: 1 },  // Cell (1, 0)
+    { closed: false, length: 0, openedBy: NO_ONE, x: 1, y: 1 },  // Cell (1, 1)
+    { closed: false, length: 0, openedBy: NO_ONE, x: 2, y: 1 }   // Cell (1, 2)
+  ],
+  [
+    { closed: true,  length: 0, openedBy: NO_ONE, x: 0, y: 2 },  // Cell (2, 0)
+    { closed: false, length: 0, openedBy: NO_ONE, x: 1, y: 2 },  // Cell (2, 1)
+    { closed: false, length: 0, openedBy: NO_ONE, x: 2, y: 2 }   // Cell (2, 2)
+  ]
+]
+```
+
+---
+
+#### **3. Marking Start and End Points:**
+If the start point is `[xA, yA] = [0, 0]` and the end point is `[xB, yB] = [2, 2]`:
+
+After executing the following code:
+
+```javascript
+visited[yA][xA].openedBy = BY_A; // Mark the start point as opened by BY_A
+visited[yB][xB].openedBy = BY_B; // Mark the end point as opened by BY_B
+```
+
+**Result:**  
+The `visited` matrix will now look like this:
+
+```plaintext
+[
+  [
+    { closed: false, length: 0, openedBy: BY_A, x: 0, y: 0 },  // Cell (0, 0) opened by BY_A
+    { closed: true,  length: 0, openedBy: NO_ONE, x: 1, y: 0 },
+    { closed: false, length: 0, openedBy: NO_ONE, x: 2, y: 0 }
+  ],
+  [
+    { closed: false, length: 0, openedBy: NO_ONE, x: 0, y: 1 },
+    { closed: false, length: 0, openedBy: NO_ONE, x: 1, y: 1 },
+    { closed: false, length: 0, openedBy: NO_ONE, x: 2, y: 1 }
+  ],
+  [
+    { closed: true,  length: 0, openedBy: NO_ONE, x: 0, y: 2 },
+    { closed: false, length: 0, openedBy: NO_ONE, x: 1, y: 2 },
+    { closed: false, length: 0, openedBy: BY_B, x: 2, y: 2 }   // Cell (2, 2) opened by BY_B
+  ]
+]
+```
+
+---
+
+#### **4. Queues `aQueue` and `bQueue`:**
+- **`aQueue`:**  
+  Add the start point `[0, 0]` to the `aQueue`:
+
+  ```javascript
+  let aQueue = [visited[0][0]];
+  ```
+
+  **Final value of `aQueue`:**
+
+  ```plaintext
+  [
+    { closed: false, length: 0, openedBy: BY_A, x: 0, y: 0 }
+  ]
+  ```
+
+- **`bQueue`:**  
+  Add the end point `[2, 2]` to the `bQueue`:
+
+  ```javascript
+  let bQueue = [visited[2][2]];
+  ```
+
+  **Final value of `bQueue`:**
+
+  ```plaintext
+  [
+    { closed: false, length: 0, openedBy: BY_B, x: 2, y: 2 }
+  ]
+  ```
+
+---
+
+  */
+  //#endregion
   let iteration = 0;
 
   // if one runs out, there's no path
@@ -129,6 +272,7 @@ const findShortestPathLength = (maze, [xA, yA], [xB, yB]) => {
         acc.concat(getNeighbors(visited, neighbor.x, neighbor.y)),
       []
     );
+
     aQueue = [];
     for (let i = 0; i < aNeighbors.length; i++) {
       const neighbor = aNeighbors[i];
@@ -157,7 +301,7 @@ const findShortestPathLength = (maze, [xA, yA], [xB, yB]) => {
         bQueue.push(neighbor);
       }
     }
-    logMaze(visited);
+    //logMaze(visited);
   }
   return -1;
 };
@@ -268,4 +412,3 @@ test("findShortestPathLength - impossible", () => {
   ];
   expect(findShortestPathLength(impossible, [1, 1], [4, 4])).toBe(-1);
 });
-console.log(";;"); // why when i run the program it doesn't print the console.log(";;")?

@@ -1,3 +1,6 @@
+//Bidirectional BFS
+
+
 // write in a function thats a X by X array of arrays of numbers
 // as well two x/y combinations and have it return the shortest
 // length (you don't need to track the actual path) from point A
