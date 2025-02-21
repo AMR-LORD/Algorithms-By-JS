@@ -6,8 +6,8 @@
  ****
 ## **1 [Revision on the Basics & OOP]()**
 ***
-## **2** **[Stacks, Queues, and Recursion]()**
-### [2.1 Recursion]()
+## **2** **[Stacks, Queues, and Recursion](https://github.com/AMR-LORD/Algorithms-By-JS/tree/main/Topic%20Discussion/Stacks%2C%20Queues%2C%20Recursion/Recursion)**
+### [2.1 Recursion](https://github.com/AMR-LORD/Algorithms-By-JS/tree/main/Topic%20Discussion/Stacks%2C%20Queues%2C%20Recursion)
 ### 2.2 Stacks
 ### 2.3 Queues
 ### 2.4 Linked Lists
