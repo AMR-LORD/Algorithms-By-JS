@@ -1,6 +1,6 @@
 # **Computer Science Topics**
 
-## I am still working on the content. It will be finished by **April 20, 2025**
+## I am still working on the content.
 
 ## **The Content**
  ****
